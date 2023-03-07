@@ -1,0 +1,47 @@
+﻿@page "/register"
+@using ButalandIntErasmus.Client.Services.Interfaces;
+@using ButalandIntErasmus.Shared.DTOs;
+
+<PageTitle>Register</PageTitle>
+
+<h3>RegisterUser</h3>
+
+
+<EditForm Model="_user" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label for="email">Email</label>
+        <InputText id="email" @bind-Value="_user.Email" />
+    </div>
+    <div class="mb-3">
+        <label for="password">Password</label>
+        <InputText id="password" @bind-Value="_user.Password" type="password" />
+    </div>
+    <div class="mb-3">
+        <label for="confirmPassword">Confirm Password</label>
+        <InputText id="confirmPassword" @bind-Value="_user.PasswordConfirm" type="password" />
+    </div>
+    <ValidationSummary />
+    <button type="submit" class="btn btn-primary">Register</button>
+    <div class="@_messageCssClass">
+        <span>@_message</span>
+    </div>
+</EditForm>
+
+@code{
+    [Inject]
+    private IAuthService AuthService { get; set; }
+
+    UserRegisterDto _user = new UserRegisterDto();
+
+    string _message = string.Empty;
+    string _messageCssClass = string.Empty;
+
+    async Task HandleSubmit()
+    {
+        var result = await AuthService.RegisterAsync(_user);
+        _message = result.Message;
+
+        _messageCssClass = result.Success ? "text-success" : "text-danger";
+    }
+}

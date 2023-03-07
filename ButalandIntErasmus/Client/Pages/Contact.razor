@@ -1,0 +1,36 @@
+﻿@page "/contact"
+@using Microsoft.AspNetCore.Components.Forms
+@using System.ComponentModel.DataAnnotations
+<PageTitle>Contact</PageTitle>
+
+
+<h2>Contact us</h2>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 col-sm-12">
+            <form>
+                <div class="form-group">
+                    <label for="nameInput">Name</label>
+                    <input type="text" class="form-control" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="emailInput">Email address</label>
+                    <input type="email" class="form-control"  placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="phoneInput">Phone</label>
+                    <input type="tel" class="form-control" placeholder="Enter your phone number">
+                </div>
+                <div class="form-group">
+                    <label for="messageInput">Message</label>
+                    <textarea class="form-control" rows="5" placeholder="Enter your message"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send</button>
+            </form>
+        </div>
+    </div>
+</div>
+@code {
+
+}

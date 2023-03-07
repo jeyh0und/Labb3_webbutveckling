@@ -1,0 +1,35 @@
+﻿@page "/add-staff"
+@using ButalandIntErasmus.Shared.DTOs;
+@using Microsoft.AspNetCore.Authorization;
+@inject HttpClient client
+@attribute [Authorize]
+
+<h1>Add Staff</h1>
+
+<EditForm OnSubmit="Submit" Model="newStaff">
+    <div class="form-group">
+        <label class="form-label">Name:</label>
+        <InputText @bind-Value="newStaff.Name" type="text" class="form-control"></InputText>
+    </div>
+    <div class="form-group">
+        <label class="form-label">Job Description:</label>
+        <InputText @bind-Value="newStaff.Description" type="text" class="form-control"></InputText>
+    </div>
+    <div class="form-group">
+        <label class="form-label">Email:</label>
+        <InputText @bind-Value="newStaff.Email" type="email" class="form-control"></InputText>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</EditForm>
+
+@code {
+    private StaffDto newStaff = new ();
+    private async Task Submit()
+    {
+        HttpResponseMessage res = await client.PostAsJsonAsync<StaffDto>("api/staff/add-staff", newStaff);
+        if (res.IsSuccessStatusCode)
+        {
+            Console.WriteLine("Success!");
+        }
+    }
+}

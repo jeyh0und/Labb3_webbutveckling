@@ -1,0 +1,51 @@
+﻿@page "/staff"
+@using ButalandIntErasmus.Shared.DTOs;
+@using Microsoft.AspNetCore.Authorization
+@inject HttpClientPub client;
+@inject NavigationManager NavigationManager;
+
+@attribute [Authorize]
+
+<h3>List of Staff</h3>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Job Description</th>
+            <th>Email</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+		<Virtualize Items="staff" Context="s">
+			<tr>
+				<td>@s.Name</td>
+				<td>@s.Description</td>
+				<td>@s.Email</td>
+			</tr>
+		</Virtualize>
+	</tbody>
+</table>
+
+<button class="btn btn-success" @onclick="() => AddStaff()">Add new staff</button>
+
+@code {
+	public List<StaffDto> staff { get; set; } = new ();
+
+	protected override async Task OnInitializedAsync()
+	{
+		try
+		{
+			staff = await client.client.GetFromJsonAsync<List<StaffDto>>("api/staff/allstaff");
+		}
+		catch
+		{
+			staff = null;
+		}
+	}
+
+	private void AddStaff() => NavigationManager.NavigateTo("/add-staff");
+	
+}
